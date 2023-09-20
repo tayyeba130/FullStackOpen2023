@@ -1,4 +1,4 @@
-const Header = (props) => <h1>{props.course}</h1>;
+const Header = (props) => <h1>{props.course.name}</h1>;
 
 const Part = (props) => (
 	<p>
@@ -52,12 +52,12 @@ const App = () => {
 			},
 		],
 	};
-
+	const { parts } = course;
 	return (
 		<div>
-			<Header course={course.name} />
-			<Content parts={course.parts} />
-			<Total parts={course.parts} />
+			<Header course={course} />
+			<Content parts={parts} />
+			<Total parts={parts} />
 		</div>
 	);
 };
