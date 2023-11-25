@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Filter } from "./components/Filter";
+import { PersonForm } from "./components/PersonForm";
+import { Persons } from "./components/Persons";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+	const [persons, setPersons] = useState([
+		{ name: "Arto Hellas", number: "040-123456", id: 1 },
+		{ name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
+		{ name: "Dan Abramov", number: "12-43-234345", id: 3 },
+		{ name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
+	]);
+	const [values, setValues] = useState({ newName: "", newNumber: "" });
+	const [filterText, setFilterText] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+	const handleChange = (event) => {
+		setValues({ ...values, [event.target.name]: event.target.value });
+	};
 
-export default App
+	const handleFilterChange = (event) => {
+		setFilterText(event.target.value);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		if (values.newName === "" || values.newNumber === "") {
+			return;
+		}
+		if (persons.some((person) => person.name === values.newName)) {
+			alert(`${values.newName} is already added to phonebook`);
+			return;
+		}
+		const newPersonObject = {
+			name: values.newName,
+			number: values.newNumber,
+			id: persons.length + 1,
+		};
+		setPersons(persons.concat(newPersonObject));
+		setValues({ newName: "", newNumber: "" });
+	};
+
+	return (
+		<div>
+			<h2>Phonebook</h2>
+			<Filter filterText={filterText} onChange={handleFilterChange} />
+			<PersonForm
+				values={values}
+				handleChange={handleChange}
+				onSubmit={handleSubmit}
+			/>
+			<h2>Numbers</h2>
+			<Persons
+				persons={persons.filter((person) =>
+					person.name.toLowerCase().includes(filterText.toLowerCase())
+				)}
+			/>
+		</div>
+	);
+};
+
+export default App;
