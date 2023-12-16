@@ -1,19 +1,44 @@
 {
-	"notes": [
-		{
-			"id": 1,
-			"content": "HTML is easy",
-			"important": true
-		},
-		{
-			"id": 2,
-			"content": "Browser can execute only JavaScript",
-			"important": false
-		},
-		{
-			"id": 3,
-			"content": "GET and POST are the most important methods of HTTP protocol",
-			"important": true
-		}
-	]
+  "notes": [
+    {
+      "id": 1,
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": 2,
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": 3,
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": true
+    },
+    {
+      "content": "I am at Mama's",
+      "important": false,
+      "id": 4
+    },
+    {
+      "content": "Usama will drop me off",
+      "important": true,
+      "id": 5
+    },
+    {
+      "content": "Hamza has gone climbing",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "trello",
+      "important": false,
+      "id": 7
+    },
+    {
+      "content": "Junaid is eating burfi",
+      "important": false,
+      "id": 8
+    }
+  ]
 }
