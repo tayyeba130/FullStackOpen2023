@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import axios from "axios";
+import personApi from "./services/persons";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -10,8 +10,8 @@ const App = () => {
 	const [filterText, setFilterText] = useState("");
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/persons").then((response) => {
-			setPersons(response.data);
+		personApi.getAll().then((data) => {
+			setPersons(data);
 		});
 	}, []);
 
@@ -28,17 +28,59 @@ const App = () => {
 		if (values.newName === "" || values.newNumber === "") {
 			return;
 		}
-		if (persons.some((person) => person.name === values.newName)) {
-			alert(`${values.newName} is already added to phonebook`);
-			return;
-		}
 		const newPersonObject = {
 			name: values.newName,
 			number: values.newNumber,
-			id: persons.length + 1,
 		};
-		setPersons(persons.concat(newPersonObject));
-		setValues({ newName: "", newNumber: "" });
+		if (
+			persons.some(
+				(person) =>
+					person.number === values.newNumber &&
+					person.name === values.newName
+			)
+		) {
+			alert(`${values.newNumber} is already added to phonebook`);
+			return;
+		}
+		if (
+			persons.some(
+				(person) =>
+					person.name === values.newName &&
+					person.number !== values.newNumber
+			)
+		) {
+			if (
+				window.confirm(
+					`${values.newName} is already added to phonebook, replace the old number with a new one?`
+				)
+			) {
+				const personId = persons.find(
+					(person) => person.name === values.newName
+				).id;
+				personApi
+					.updatePersonNumber(personId, newPersonObject)
+					.then((data) => {
+						setPersons(
+							persons.map((person) =>
+								person.id !== personId ? person : data
+							)
+						);
+						setValues({ newName: "", newNumber: "" });
+					});
+			}
+		}
+		personApi.create(newPersonObject).then((data) => {
+			setPersons(persons.concat(data));
+			setValues({ newName: "", newNumber: "" });
+		});
+	};
+
+	const deleteHandler = (id) => {
+		const person = persons.find((person) => person.id === id);
+		if (window.confirm(`Delete ${person.name}?`)) {
+			personApi.remove(id);
+			setPersons(persons.filter((person) => person.id !== id));
+		}
 	};
 
 	return (
@@ -52,6 +94,7 @@ const App = () => {
 			/>
 			<h2>Numbers</h2>
 			<Persons
+				deleteHandler={deleteHandler}
 				persons={persons.filter((person) =>
 					person.name.toLowerCase().includes(filterText.toLowerCase())
 				)}

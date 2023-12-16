@@ -1,6 +1,7 @@
 export const PersonForm = ({ onSubmit, values, handleChange }) => {
 	return (
 		<form onSubmit={onSubmit}>
+			<h1>add a new</h1>
 			<div>
 				name:{" "}
 				<input
