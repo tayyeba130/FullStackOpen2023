@@ -1,6 +1,5 @@
-// import the built-in web server module
-// node uses commonJS module system
-const http = require("http");
+const express = require("express");
+const app = express();
 
 let notes = [
 	{
@@ -20,13 +19,31 @@ let notes = [
 	},
 ];
 
-// the event handler is called every time a request is made to the server
-const app = http.createServer((req, res) => {
-	res.writeHead(200, { "Content-Type": "application/json" });
-	res.end(JSON.stringify(notes));
+app.get("/", (req, res) => {
+	res.send("<h1>Hello World!</h1>");
+});
+
+app.get("/api/notes", (req, res) => {
+	res.json(notes);
+});
+
+app.get("/api/notes/:id", (req, res) => {
+	const id = Number(req.params.id);
+	const note = notes.find((note) => note.id === id);
+	if (note) {
+		res.json(note);
+	} else {
+		res.status(404).end();
+	}
+});
+
+app.delete("/api/notes/:id", (res, req) => {
+	const id = Number(req.params.id);
+	notes = notes.filter((note) => note.id !== id);
+	res.status(204).end();
 });
 
 const port = 3001;
-app.listen(port);
-
-console.log(`Server running on port ${port}`);
+app.listen(port, () => {
+	console.log(`Server running on port ${port}`);
+});
