@@ -1,0 +1,32 @@
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "name": "John Doe",
+    "number": "1234567890"
+}
+
+### 
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Khadija M Junaid"
+}
+
+### 
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "number": "2988291"
+}
+
+### 
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Ada Lovelace",
+    "number": "2423234"
+}
