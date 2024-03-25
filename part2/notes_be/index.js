@@ -1,6 +1,9 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
+app.use(express.static("dist"));
+app.use(cors());
 app.use(express.json());
 
 let notes = [
@@ -67,9 +70,9 @@ app.post("/api/notes", (req, res) => {
 	res.json(note);
 });
 
-const port = 3001;
-app.listen(port, () => {
-	console.log(`Server running on port ${port}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
 function generateID() {
 	// The array is transformed into individual numbers by using the ... operator
