@@ -1,5 +1,5 @@
-GET http://localhost:3001/api/persons/4
+GET https://contact-book.fly.dev/api/persons/4
 
 ###
 
-GET http://localhost:3001/api/persons/100
+GET https://contact-book.fly.dev/api/persons/100
