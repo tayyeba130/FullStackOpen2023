@@ -1,5 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
+
 const app = express();
 
 // Define a custom token to log request body
@@ -7,6 +9,8 @@ morgan.token("req-body", function (req) {
 	return JSON.stringify(req.body);
 });
 
+app.use(cors());
+app.use(express.static("dist"));
 app.use(express.json());
 app.use(
 	morgan(function (tokens, req, res) {
@@ -106,7 +110,7 @@ const generateId = () => {
 	return randomId;
 };
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`);
+	console.log(`Server running on port ${PORT}`);
 });
