@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/persons/661b81486fdf18c6694a3e19 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Khadija M Junaid",
+    "number": "333-333-3333"
+}

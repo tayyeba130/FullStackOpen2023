@@ -1,9 +1,9 @@
-POST https://contact-book.fly.dev/api/persons HTTP/1.1
+POST http://localhost:3001/api/persons HTTP/1.1
 content-type: application/json
 
 {
-    "name": "John Doe",
-    "number": "1234567890"
+    "name": "Khadija M Junaid",
+    "number": "07916765796"
 }
 
 ### 
@@ -11,7 +11,7 @@ POST https://contact-book.fly.dev/api/persons HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Khadija M Junaid"
+    "name": "John Doe"
 }
 
 ### 
