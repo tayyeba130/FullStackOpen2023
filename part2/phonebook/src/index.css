@@ -1,3 +1,15 @@
 h1 {
 	color: green;
 }
+div.error {
+	color: red;
+	margin-bottom: 40px;
+	background-color: pink;
+	padding: 7px 14px;
+	border-radius: 4px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+div.container {
+	margin: 0 auto;
+	max-width: 800px;
+}

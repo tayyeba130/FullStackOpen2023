@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
+import { Error } from "./components/Error";
 import personApi from "./services/persons";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
 	const [values, setValues] = useState({ newName: "", newNumber: "" });
 	const [filterText, setFilterText] = useState("");
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		personApi.getAll().then((data) => {
@@ -25,6 +27,7 @@ const App = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		setError(null);
 		if (values.newName === "" || values.newNumber === "") {
 			return;
 		}
@@ -66,13 +69,17 @@ const App = () => {
 							)
 						);
 						setValues({ newName: "", newNumber: "" });
-					});
+					})
+					.catch((error) => setError(error.response.data.error));
 			}
 		}
-		personApi.create(newPersonObject).then((data) => {
-			setPersons(persons.concat(data));
-			setValues({ newName: "", newNumber: "" });
-		});
+		personApi
+			.create(newPersonObject)
+			.then((data) => {
+				setPersons(persons.concat(data));
+				setValues({ newName: "", newNumber: "" });
+			})
+			.catch((error) => setError(error.response.data.error));
 	};
 
 	const deleteHandler = (id) => {
@@ -84,8 +91,9 @@ const App = () => {
 	};
 
 	return (
-		<div>
+		<div className="container">
 			<h2>Phonebook</h2>
+			<Error content={error} />
 			<Filter filterText={filterText} onChange={handleFilterChange} />
 			<PersonForm
 				values={values}
