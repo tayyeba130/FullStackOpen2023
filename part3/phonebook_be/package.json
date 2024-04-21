@@ -10,10 +10,12 @@
 		"build:ui": "rm -rf dist && cd ../../part2/phonebook/ && npm run build && cp -r dist ../../part3/phonebook_be",
 		"deploy": "fly deploy",
 		"deploy:full": "npm run build:ui && npm run deploy",
-		"logs:prod": "fly logs"
+		"logs:prod": "fly logs",
+		"lint": "eslint . --debug"
 	},
 	"author": "Tayyeba Shoaib",
 	"license": "ISC",
+	"type": "module",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
@@ -23,6 +25,8 @@
 	},
 	"devDependencies": {
 		"@flydotio/dockerfile": "^0.5.4",
+		"@stylistic/eslint-plugin-js": "^1.7.2",
+		"eslint": "^9.1.0",
 		"nodemon": "^3.1.0"
 	}
 }
