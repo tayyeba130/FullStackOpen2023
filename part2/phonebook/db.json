@@ -1,13 +1,8 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "number": "12332323",
       "id": 2
     },
     {
@@ -16,34 +11,14 @@
       "id": 3
     },
     {
-      "name": "junaid khalid",
-      "number": "89082218",
+      "name": "Alan Turing",
+      "number": "0793232388",
       "id": 4
     },
     {
-      "name": "junaid khalid",
-      "number": "89082218",
+      "name": "Sam",
+      "number": "22222",
       "id": 5
-    },
-    {
-      "name": "tayyeba",
-      "number": "45545455",
-      "id": 6
-    },
-    {
-      "name": "tayyeba",
-      "number": "23903209",
-      "id": 7
-    },
-    {
-      "name": "tayyeba",
-      "number": "44444",
-      "id": 9
-    },
-    {
-      "name": "tayyeba",
-      "number": "45545455",
-      "id": 10
     }
   ]
 }
