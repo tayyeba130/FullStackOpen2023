@@ -67,6 +67,7 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.put("/api/persons/:id", (req, res, next) => {
+	console.log("put request");
 	const body = req.body;
 	const person = {
 		name: body.name,
@@ -78,7 +79,11 @@ app.put("/api/persons/:id", (req, res, next) => {
 		context: "query",
 	})
 		.then((updatedPerson) => {
-			res.json(updatedPerson);
+			if (updatedPerson) {
+				res.json(updatedPerson);
+			} else {
+				res.status(404).json({ error: "Person not found" });
+			}
 		})
 		.catch((error) => next(error));
 });
@@ -106,7 +111,6 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (error, _req, res, next) => {
-	console.error(error.message);
 	console.log(error.message);
 	if (error.name === "CastError") {
 		return res.status(400).send({ error: "malformatted id" });

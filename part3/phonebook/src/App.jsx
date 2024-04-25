@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
+import { Notification } from "./components/Notification";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import { Error } from "./components/Error";
 import personApi from "./services/persons";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
 	const [values, setValues] = useState({ newName: "", newNumber: "" });
 	const [filterText, setFilterText] = useState("");
-	const [error, setError] = useState(null);
+	const [notification, setNotification] = useState(null);
 
 	useEffect(() => {
 		personApi.getAll().then((data) => {
@@ -25,9 +25,53 @@ const App = () => {
 		setFilterText(event.target.value);
 	};
 
+	const updatePersonNumber = (personId, newPersonObject) => {
+		personApi
+			.updatePersonNumber(personId, newPersonObject)
+			.then((data) => {
+				setPersons(
+					persons.map((person) =>
+						person.id !== personId ? person : data
+					)
+				);
+				setValues({ newName: "", newNumber: "" });
+				setNotification({
+					type: "success",
+					content: `Updated ${data.name}`,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+				setNotification({
+					type: "error",
+					content: `Information of ${newPersonObject.name} has already been removed from the server.`,
+				});
+			});
+	};
+
+	const createPerson = (newPersonObject) => {
+		personApi
+			.create(newPersonObject)
+			.then((data) => {
+				setPersons(persons.concat(data));
+				setValues({ newName: "", newNumber: "" });
+				setNotification({
+					type: "success",
+					content: `Added ${data.name}`,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+				setNotification({
+					type: "error",
+					content: `There was a problem adding the person to the server.`,
+				});
+			});
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		setError(null);
+		setNotification(null);
 		if (values.newName === "" || values.newNumber === "") {
 			return;
 		}
@@ -60,26 +104,13 @@ const App = () => {
 				const personId = persons.find(
 					(person) => person.name === values.newName
 				).id;
-				personApi
-					.updatePersonNumber(personId, newPersonObject)
-					.then((data) => {
-						setPersons(
-							persons.map((person) =>
-								person.id !== personId ? person : data
-							)
-						);
-						setValues({ newName: "", newNumber: "" });
-					})
-					.catch((error) => setError(error.response.data.error));
+				updatePersonNumber(personId, newPersonObject);
+				return;
+			} else {
+				return;
 			}
 		}
-		personApi
-			.create(newPersonObject)
-			.then((data) => {
-				setPersons(persons.concat(data));
-				setValues({ newName: "", newNumber: "" });
-			})
-			.catch((error) => setError(error.response.data.error));
+		createPerson(newPersonObject);
 	};
 
 	const deleteHandler = (id) => {
@@ -93,7 +124,12 @@ const App = () => {
 	return (
 		<div className="container">
 			<h2>Phonebook</h2>
-			<Error content={error} />
+			<Notification
+				content={notification?.content || null}
+				type={notification?.type || null}
+				hide={() => setNotification(null)}
+			/>
+			{/* <Error content={error} /> */}
 			<Filter filterText={filterText} onChange={handleFilterChange} />
 			<PersonForm
 				values={values}

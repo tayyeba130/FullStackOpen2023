@@ -1,13 +1,21 @@
 h1 {
 	color: green;
 }
-div.error {
-	color: red;
+div.notification {
 	margin-bottom: 40px;
-	background-color: pink;
-	padding: 7px 14px;
+	padding: 14px;
+	background-color: lemonchiffon;
 	border-radius: 4px;
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	border: 2px solid;
+}
+div.error {
+	color: red;
+	border-color: red;
+}
+div.success {
+	color: green;
+	border-color: green;
 }
 div.container {
 	margin: 0 auto;
