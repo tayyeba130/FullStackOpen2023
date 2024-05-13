@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Khadija's dad",
+    "author": "Junaid Khalid",
+    "url": "www.junaid-khalid.com",
+    "likes": 23
+}
